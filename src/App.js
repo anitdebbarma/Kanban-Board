@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import {Dashboard} from "./components/Dashboard";
+import Navbar from "./components/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "./pages/display";
+import { useEffect } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => {
+  const dispatch = useDispatch();
+  const { tickets } = useSelector((state) => state.dataSlice);
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
+
+  return tickets ? (
+    <div>
+      <Navbar />
+      <Dashboard />
     </div>
+  ) : (
+    console.error("Something went wrong")
   );
-}
+};
 
 export default App;
